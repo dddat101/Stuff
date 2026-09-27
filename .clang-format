@@ -1,0 +1,117 @@
+# MARUSYS C/C++ formatting policy
+# Derived from: Coding Guide & Policy
+#
+# Scope: formatting only. Naming, macro/JIRA policy, declaration placement,
+# Yoda conditions, and logical-expression grouping require separate lint/review.
+#
+# Use a project-wide line limit so long expressions are wrapped predictably.
+# clang-format produces one canonical layout rather than preserving arbitrary
+# manual line breaks.
+
+BasedOnStyle: LLVM
+Language: Cpp
+
+# -----------------------------------------------------------------------------
+# Indentation
+# Guide: 4 spaces, no tabs for new functions/files.
+# -----------------------------------------------------------------------------
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+
+# -----------------------------------------------------------------------------
+# Line length / wrapping
+# -----------------------------------------------------------------------------
+# Wrap calls earlier so trailing comparisons are less likely to stand alone.
+ColumnLimit: 100
+
+# Long function arguments: one argument per continuation line when wrapped.
+BinPackArguments: true
+BinPackParameters: true
+AllowAllArgumentsOnNextLine: false
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: None
+
+# Put struct-array rows on separate lines and align their fields.
+AlignArrayOfStructures: Left
+
+# Keep binary operators with the preceding operand. Besides following the LLVM
+# default, this keeps comparisons after multiline calls readable, for example:
+#     function_call(arg1,
+#                   arg2) == MAL_SUCCESS
+BreakBeforeBinaryOperators: None
+AlignOperands: true
+
+# Ternary continuation:
+#     condition
+#         ? expr1
+#         : expr2;
+BreakBeforeTernaryOperators: true
+
+# Split overlong string literals when clang-format can do so safely.
+BreakStringLiterals: true
+
+# -----------------------------------------------------------------------------
+# Braces
+# Primary guide examples use the opening brace on the control-statement line.
+# Note: the guide also marks a next-line opening brace as OK in one example;
+# Attach is chosen as the deterministic project default.
+# -----------------------------------------------------------------------------
+# BreakBeforeBraces: Attach
+# BreakBeforeBraces: Allman
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeWhile: true
+
+# -----------------------------------------------------------------------------
+# Parentheses and spacing
+# Guide:
+#   if (condition)
+#   func(arg1, arg2)
+# -----------------------------------------------------------------------------
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpaceBeforeAssignmentOperators: true
+SpaceAfterCStyleCast: false
+
+# Commas and normal binary operators are formatted with conventional spacing.
+# clang-format handles comma spacing automatically.
+
+# -----------------------------------------------------------------------------
+# Pointer/reference declarators
+# Guide: int* a;  (not int *a;)
+# -----------------------------------------------------------------------------
+DerivePointerAlignment: false
+# PointerAlignment: Left
+PointerAlignment: Right
+ReferenceAlignment: Pointer
+
+# -----------------------------------------------------------------------------
+# Short statements
+# Keep control flow explicit and stable instead of aggressively collapsing it.
+# -----------------------------------------------------------------------------
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+
+# Preserve include ordering because the supplied guide does not define an include
+# sorting policy; avoid unrelated source changes.
+SortIncludes: false
+
+# Keep existing empty-line structure reasonably stable.
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false
